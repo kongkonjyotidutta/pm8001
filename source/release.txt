@@ -1,0 +1,170 @@
+Xyratex Internation Ltd.   
+
+pm8001 driver for Linux Kernel 2.6.18-164.rhel5
+
+Engineering version: 0.1.36.e21
+
+
+Revision:
+
+Rev 0.1.36-1         WHL     July 16, 2010
+- Porting pm8001 driver from kernel 2.6.35-rc3 to support kernel 2.6.18
+
+Rev 0.1.36-e1        WHL     July 30, 2010
+- Added module parameter pm8001_wwn to modify SAS address.  Modified 
+  SAS address will be save in VPD.
+  
+Rev 0.1.36-e2        WHL     August 11, 2010
+- CR38531: Unload and reload of PMC driver causes kernel panic.
+- CR38532: Driver author details reported by modinfo needs cleanup.
+- CR38593: Storsimple panic exec failed poss mem leak.
+
+Rev 0.1.26-e3        WHL    September 7, 2010
+- CR38581: StorSimple: Panic
+- CR38593: Storsimple panic exec failed poss mem leak
+- CR38624: No devices found after some iterations of gem reboots
+- CR38591: SES stress on Stringray with PMC driver results in system hang.
+
+Rev 0.1.36-e4        WHL    September 8, 2010
+- CR38873: Need different WWNs for phys 0-3 and phys 4-7.
+
+Rev 0.1.36-e5        LF     September 17, 2010
+- CR38962: PMC installers need improving
+- CR38961:firmware download needs to match updated spec
+
+Rev 0.1.36-e6        LF     October 14, 2010
+- CR39220: SS: PMC Sierra driver v0.1.36.e5 does not load during kickstart
+- CR39161: SS: Kernel panic while installing PMC driver v1.36-e5 over existing driver  
+
+Rev 0.1.36-e7        WHL    October 19, 2010
+- CR38670: Task aborts seen after sending ssu scsi command.
+- CR39285: debug output should contain the build version eg e5 in every line of output
+
+Rev 0.1.36-e8        WHL    October 22, 2010
+- CR39314: Disk not cleaned up on poweroff or rediscovered on poweron.
+
+Rev 0.1.36-e9        WHL    October 25, 2010
+- CR39317: NILL proc_name in /sys/class/scsi_host/host2.
+
+Rev 0.1.36-e10       WHL    October 29, 2010
+- CR39314: Disk not cleaned up on poweroff or rediscovered on poweron.
+
+Rev 0.1.36-e11       WHL    November 4, 2010
+- CR39219: While shutting down ctrl2 using the 'shutdown' command, ctrl1 suddenly 
+           lost contact with the quorum drive.
+- CR39350: Kernel panic seen after 100+ powercycles and DOC sees problem
+
+Rev 0.1.36-e12       WHL    November 5, 2010
+- CR39443: No drives can be seen on Stingray when the PMC driver 1.36-e11 is installed.
+
+Rev 0.1.36-e13       WHL    November 11, 2010
+- CR39427: SS: HDD suddenly returns "Logical unit not ready, notify (enable spinup) required".
+
+Rev 0.1.36-e14       WHL    November 17, 2010
+- CR39564: Need to show CDB info in failing SSP read/write messages.
+
+Rev 0.1.36-e15       WHL    November 19, 2010
+- CR39564: Need to show wwn and CDB info in failing SSP read/write messages.
+
+Rev 0.1.36-e16       WHL    December 6, 2010
+- CR39219: While shutting down ctrl2 using the 'shutdown' command, ctrl1 suddenly 
+           lost contact with the quorum drive.
+- CR39427: SS: HDD suddenly returns "Logical unit not ready, notify (enable spinup) required".
+
+Rev 0.1.36-F01      WHL     December 9, 2010
+No changes this is purely a version number change prior to external release.
+
+Rev 0.1.36.e17      dja     Feb 14, 2011
+
+- Increase the max_sectors from default 1024 to 32768.
+- Adjustments to makefile and source tree to simplify build process.
+
+Rev 0.1.36.e18      mgs     March 3 2011
+
+- Fix CR39924/TI45/TI43: (IO_XFER_ERROR_BREAK from SSD)
+- Fix CR40004/TI50/TI43: (sg layer panic)
+
+Rev 0.1.36.e19      mgs     March 4 2011
+
+- Fix CR39924/TI45/TI43: (IO_XFER_ERROR_BREAK from SD, with retry)
+
+Rev 0.1.36.e20      mgs     March 8 2011
+
+- Fix CR39924/TI45/TI43 Move pm8001_query_task call into pm8001_handle_event
+
+Rev 0.1.36.F02      mgs     March 18 2011
+
+- Fix CR40119 module unload regression, %postun script
+- Cosmetic change to ensure pm8001_query_task correct printout
+
+Rev 0.1.36.e21      mgs     May 11 2011
+
+- Add forensic details to debugfs so that field issues can be diagnosed by
+  PMC staff.
+
+Rev 0.1.36.F03      mgs     July 12 2011
+
+- Switch to SPC8x6g_Maint_01_11_release_111000_102611.zip firmware products.
+
+Rev 0.1.36.F04      mgs     September 21 2011
+
+- Fix NEO-176 Device gone handling broken, belongs leveraging port_attached PHY_DOWN
+
+Rev 0.1.36.F05      mgs     October 4 2011
+
+- Back-Merge from kernel.org white-space and spelling-corrections to ease
+  forward and back merges in the future. (purely cosmetic)
+- Add a pm8001_printk for OPC_OUB_GENERAL_EVENT (cosmetic)
+- Fix OSG-32 resolve issue with outgoing queue and rb_pointer data in forensics
+
+Rev 0.1.36.F06      mgs     December 13 2011
+
+- OSG-33 Add ability to adjust individual phy analog settings with
+  /lib/firmware/pm8001.nv.json. Set some StingRay specific defaults.
+- NEO-238 On ssp event IO_XFER_OPEN_RETRY_TIMEOUT issue an abort, escalate
+  to a phy reset if cannot then return command with a status to retry.
+- STI-104 Panic in query_task resulting from disruptions during download of
+  canister firmware.
+- CPD-350 Panic in abort_task resulting from disruptions during powering down
+  of enclosures.
+- OSG-60 raise queue limit to 510 to match value in kernel.org.
+- OSG-78 Check dev->phy before calling dev_is_sata(dev)
+- CR39789/TI39/OSG-60 add pm8001_eh_host_reset_handler (original effort from
+  TimM in 0.1.36.e21 timeframe).
+- OSG-50 Discovered that timeouts are not propagated properly for aborts and
+  other administrivia, added error code into internal tmf task handler and
+  ensure only valid values for query task are propagated. Add locking to
+  pm8001_bar4_shift. Add PHY_FUNC_GET_EVENTS handler while we are here. Remove
+  3.rb_access (PMC identified it as problematic) and added 3.rb.configure.
+- OSG-60+TI-83 Check all occurrences of lldd_dev NULL
+- NEO-275, OSG-85, OSG-107, ... Increase open retry timeout resilience.
+
+Rev 0.1.36.F07      mgs     December 16 2011
+
+- OSG-42 Add r/w access to VPD. Reformat VPD to support individual per-phy
+  WWNs. Add the pm8001-wwn startup script.
+- OSG-165 Increase circular mpi queues to 1024
+- OSG-261 Decrease outstanding commands from 510 to 508 to provide double
+  the margin for event and administrivia packets.
+- OSG-503 pm8001 is not setting wwn on some StingRays
+  expand PCI busses the PLX can be discovered to 1 through 9.
+
+Rev 0.1.36.F08     dja     August 29 2012
+
+- OSG-531 kernel panic on hot-pull of drive during write.
+These changes add cleanup for the abort paths so that all pending commands
+will be aborted before the reset operation completes.  The libsas layer
+expects this to be the case and double frees will occur if any ccb's
+which have been cleaned up by the error handler are subsequently
+completed by the driver.
+
+Rev 0.1.36.F08     mgs     October 25 2012
+
+- NEO-838 VPD individual wwn per phy is sub-optimal.
+- NEO-838 VPD pair of x4 wwns is sub-optimal.
+- OSG-680 change PM8001_RESERVED_CCB to 176
+
+Rev 0.1.36.F08     mgs     November 26 2012
+
+- OSG-714/CLSTR-844 spin_unlock_irq() called within
+  spin_lock_irqsave()/spin_unlock_irqrestore() context.
